@@ -7,35 +7,30 @@
 #include "include/xor_cipher.h"     // Funções de cifra XOR
 
 int main() {
-    // Inicializa todas as interfaces de I/O padrão (USB serial, etc.)
+    // Inicializa interfaces padrão
     stdio_init_all();
-    
-    // Conecta à rede WiFi
-    // Parâmetros: Nome da rede (SSID) e senha
-    connect_to_wifi("SSID da rede", "Senha da rede");
 
-    // Configura o cliente MQTT
-    // Parâmetros: ID do cliente, IP do broker, usuário, senha
-    mqtt_setup("bitdog1", "IP do broker", "aluno", "senha123");
+    // Conecta ao WiFi com credenciais originais
+    connect_to_wifi("LACERDA 2.4G", "7223480CBD");
 
-    // Mensagem original a ser enviada
+    // Configura o cliente MQTT com credenciais originais
+    mqtt_setup("bitdog1", "192.168.1.3", "jplacerda", "embarcatech12345");
+
     const char *mensagem = "26.5";
-    // Buffer para mensagem criptografada (16 bytes)
     uint8_t criptografada[16];
-    // Criptografa a mensagem usando XOR com chave 42
     xor_encrypt((uint8_t *)mensagem, criptografada, strlen(mensagem), 42);
 
-    // Loop principal do programa
     while (true) {
-        // Publica a mensagem original (não criptografada)
-        mqtt_comm_publish("escola/sala1/temperatura", mensagem, strlen(mensagem));
+        // Publica a mensagem original periodicamente
+        mqtt_comm_publish("C:/Users/komba/OneDrive/Documentos/mosquitto", mensagem, strlen(mensagem));
         
-        // Alternativa: Publica a mensagem criptografada (atualmente comentada)
-        // mqtt_comm_publish("escola/sala1/temperatura", criptografada, strlen(mensagem));
+        // Alternativa: Publica a mensagem criptografada
+        // mqtt_comm_publish("C:/Users/komba/OneDrive/Documentos/mosquitto", criptografada, strlen(mensagem));
         
         // Aguarda 5 segundos antes da próxima publicação
         sleep_ms(5000);
     }
+
     return 0;
 }
 
